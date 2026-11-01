@@ -5,7 +5,7 @@ set -euo pipefail
 # ----------------------------- НАСТРОЙКИ ------------------------------------
 REPO_URL="https://github.com/sled-tut/shvirtd-example-python.git"
 BRANCH="main"                          # ветка (можно оставить пустой "")
-TARGET_DIR="/opt"            # куда клонировать
+TARGET_DIR="/opt/app"            # куда клонировать
 COMPOSE_FILE="compose.yaml"            # имя compose-файла
 
 log()  { printf '\033[1;34m[+]\033[0m %s\n' "$*"; }
@@ -23,11 +23,12 @@ fi
 
 log "Клонирую ${REPO_URL} в ${TARGET_DIR}…"
 
-if [ -d '${TARGET_DIR}/.git' ]; then
+if [ -d ${TARGET_DIR}/.git ]; then
   echo 'Репозиторий уже существует — обновляю git pull.'
-  cd '${TARGET_DIR}' && git pull --ff-only
+  cd ${TARGET_DIR} && git pull --ff-only
 else
-  rm -r ${TARGET_DIR}
+  rm -rf ${TARGET_DIR}
+  mkdir ${TARGET_DIR}
   git clone  ${REPO_URL} ${TARGET_DIR}
 fi
 
